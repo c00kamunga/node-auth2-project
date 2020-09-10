@@ -15,6 +15,7 @@ router.get("/users", usersMiddleware.restrict(), async(req, res, next) => {
 })
 
 router.post('/users', async (req, res, next) => {
+    console.log(req.body)
     try {
         const { username, password } = req.body
         const user = await Users.findBy({ username }).first()
