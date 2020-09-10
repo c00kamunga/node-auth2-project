@@ -6,7 +6,7 @@ function restrict() {
         const authError = {
             message: "Invalid credentials"
         } 
-        
+         
         try {
             //assume the oken gets passed to the API as an "Authorization" header
             const token = req.headers.authorization
