@@ -57,7 +57,7 @@ router.post("/login", async (req, res, next) => {
 const token = jwt.sign({
     userID: user.id,
     userRole: "basic",
-}, "keep it secret keep it safe")
+}, process.env.JWT_SECRET)
 
         res.json({
             message: `Welcome ${user.username}`,

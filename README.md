@@ -47,3 +47,9 @@ Use **JSON Web Tokens** to keep users authenticated across requests.
 
 
 ((((Test commit))))
+
+##Environment Variables
+
+```
+JWT_SECRET=""
+```
