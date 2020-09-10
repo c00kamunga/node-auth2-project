@@ -1,17 +1,28 @@
-const bcrypt = require('bcryptjs')
-const Users = require('./users-model')
+const jwt = require('jsonwebtoken')
+
 
 function restrict() {
-    const authError = {
-        message: "invalid credentials"
-    }
-
     return async (req, res, next) => {
+        const authError = {
+            message: "Invalid credentials"
+        } 
+        
         try {
-            if(!req.session || !req.session.user) {
+            //assume the oken gets passed to the API as an "Authorization" header
+            const token = req.headers.authorization
+            if(!token) {
                 return res.status(401).json(authError)
             }
-            next()
+
+            jwt.verify(token, "keep it secret keep it safe", (err, decoded) => {
+                if(err) {
+                    return res.status(401).json(authError)
+                }
+                //we know the user is authorized at this point
+                //make the token's payload available to other middleware functions
+                req.token = decoded
+                next()
+            })
         } catch(err) {
             next(err)
         }
