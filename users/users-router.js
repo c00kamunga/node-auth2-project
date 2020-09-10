@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const usersMiddleware = require('./users-middleware')
 const jwt = require('jsonwebtoken')
 
+
 router.get("/users", usersMiddleware.restrict(), async(req, res, next) => {
     try {
         res.json(await Users.find())
