@@ -3,6 +3,7 @@ const Users = require('./users-model')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const usersMiddleware = require('./users-middleware')
+const jwt = require('jsonwebtoken')
 
 router.get("/users", usersMiddleware.restrict(), async(req, res, next) => {
     try {
@@ -51,10 +52,16 @@ router.post("/login", async (req, res, next) => {
                 message: "invalid credentials"
             })
         }
-        req.session.user = user
+     
+//generate a new JSON web token
+const token = jwt.sign({
+    userID: user.id,
+    userRole: "basic",
+}, "keep it secret keep it safe")
 
         res.json({
-            message: `Welcome ${user.username}`
+            message: `Welcome ${user.username}`,
+            token: token,
         })
     } catch(err) {
         next(err)
